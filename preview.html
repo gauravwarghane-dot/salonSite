@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>VELORA — Luxury Hair & Beauty Studio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --black: #0b0908;
+      --dark: #14100e;
+      --brown: #30211b;
+      --brown-2: #493128;
+      --cream: #eee5d9;
+      --muted: #a99e94;
+      --gold: #c99a6b;
+      --white: #f8f5f0;
+      --line: rgba(238, 229, 217, 0.13);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: "DM Sans", sans-serif;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    /* =========================
+       CURSOR
+    ========================= */
+
+    .cursor {
+      position: fixed;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--cream);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition:
+        width .3s ease,
+        height .3s ease,
+        background .3s ease;
+      mix-blend-mode: difference;
+    }
+
+    .cursor.active {
+      width: 55px;
+      height: 55px;
+      background: var(--white);
+    }
+
+    /* =========================
+       PRELOADER
+    ========================= */
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: loaderOut 1s ease 2s forwards;
+    }
+
+    .loader-content {
+      text-align: center;
+    }
+
+    .loader-logo {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(45px, 8vw, 100px);
+      letter-spacing: 8px;
+      animation: loaderText 1.5s ease forwards;
+    }
+
+    .loader-line {
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      margin: 25px auto 0;
+      animation: loaderLine 1.5s ease forwards;
+    }
+
+    @keyframes loaderText {
+      from {
+        opacity: 0;
+        letter-spacing: 25px;
+      }
+
+      to {
+        opacity: 1;
+        letter-spacing: 8px;
+      }
+    }
+
+    @keyframes loaderLine {
+      to {
+        width: 180px;
+      }
+    }
+
+    @keyframes loaderOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    /* =========================
+       NAV
+    ========================= */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 28px 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      mix-blend-mode: difference;
+      color: white;
+    }
+
+    .logo {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+      letter-spacing: 5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 38px;
+      list-style: none;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-links a {
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: -7px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: white;
+      transition: .4s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-book {
+      border: 1px solid rgba(255,255,255,.6);
+      padding: 12px 20px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-image {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-image img {
+      height: 100%;
+      filter: brightness(.48);
+      transform: scale(1.05);
+      animation: heroZoom 8s ease forwards;
+    }
+
+    @keyframes heroZoom {
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0,0,0,.75),
+          rgba(0,0,0,.25),
+          rgba(0,0,0,.35)
+        ),
+        linear-gradient(
+          0deg,
+          rgba(0,0,0,.85),
+          transparent 50%
+        );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 0 5vw 7vh;
+    }
+
+    .hero-small {
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: #d5c9bc;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+      animation: fadeUp 1s ease 2.2s both;
+    }
+
+    .hero-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(75px, 13vw, 190px);
+      line-height: .8;
+      font-weight: 400;
+      letter-spacing: -7px;
+      max-width: 1000px;
+      animation: fadeUp 1.2s ease 2.3s both;
+    }
+
+    .hero-title i {
+      color: var(--gold);
+    }
+
+    .hero-bottom {
+      margin-top: 55px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      max-width: 900px;
+      animation: fadeUp 1.2s ease 2.5s both;
+    }
+
+    .hero-description {
+      max-width: 360px;
+      color: #c5bbb2;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+      padding: 17px 25px;
+      background: var(--cream);
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 10px;
+      transition: .4s;
+    }
+
+    .hero-cta:hover {
+      background: var(--gold);
+      transform: translateY(-5px);
+    }
+
+    .scroll {
+      position: absolute;
+      right: 5vw;
+      bottom: 55px;
+      writing-mode: vertical-rl;
+      font-size: 9px;
+      letter-spacing: 4px;
+      color: #b8afa8;
+      z-index: 3;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================
+       MARQUEE
+    ========================= */
+
+    .marquee {
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      border-top: 1px solid var(--line);
+      padding: 23px 0;
+      background: #100d0b;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 25s linear infinite;
+    }
+
+    .marquee span {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: 24px;
+      margin: 0 35px;
+      color: #bcae9f;
+    }
+
+    .dot {
+      color: var(--gold);
+    }
+
+    @keyframes marquee {
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* =========================
+       INTRO
+    ========================= */
+
+    section {
+      position: relative;
+    }
+
+    .intro {
+      padding: 160px 10vw;
+      background: var(--black);
+    }
+
+    .section-label {
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 35px;
+    }
+
+    .intro-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(42px, 6vw, 85px);
+      line-height: 1.05;
+      font-weight: 400;
+      max-width: 1050px;
+    }
+
+    .intro-title em {
+      color: #8e8177;
+    }
+
+    .intro-text {
+      margin-top: 50px;
+      margin-left: 35%;
+      max-width: 440px;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 14px;
+    }
+
+    /* =========================
+       SERVICES
+    ========================= */
+
+    .services {
+      padding: 100px 5vw 150px;
+      background: #110e0c;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 65px;
+    }
+
+    .section-heading {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(50px, 7vw, 100px);
+      font-weight: 400;
+      line-height: .9;
+    }
+
+    .section-number {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+
+    .services-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .service {
+      display: grid;
+      grid-template-columns: 70px 1fr 1fr 130px;
+      align-items: center;
+      padding: 35px 0;
+      border-bottom: 1px solid var(--line);
+      transition: .5s;
+      cursor: pointer;
+    }
+
+    .service:hover {
+      padding-left: 25px;
+      padding-right: 25px;
+      background: #1b1512;
+    }
+
+    .service-number {
+      color: var(--gold);
+      font-size: 11px;
+    }
+
+    .service-name {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(25px, 3vw, 42px);
+    }
+
+    .service-desc {
+      color: var(--muted);
+      font-size: 12px;
+      max-width: 270px;
+      line-height: 1.6;
+    }
+
+    .service-price {
+      text-align: right;
+      color: var(--gold);
+      font-family: "Playfair Display", serif;
+      font-size: 19px;
+    }
+
+    /* =========================
+       EXPERIENCE
+    ========================= */
+
+    .experience {
+      min-height: 850px;
+      display: flex;
+      align-items: center;
+      padding: 120px 5vw;
+      overflow: hidden;
+    }
+
+    .experience-image {
+      position: absolute;
+      width: 58%;
+      height: 750px;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .experience-image img {
+      height: 100%;
+      filter: brightness(.65);
+    }
+
+    .experience-content {
+      position: relative;
+      z-index: 2;
+      width: 55%;
+    }
+
+    .experience-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(65px, 8vw, 125px);
+      line-height: .88;
+      font-weight: 400;
+    }
+
+    .experience-title span {
+      display: block;
+      margin-left: 15%;
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .experience-copy {
+      max-width: 380px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 13px;
+      margin: 60px 0 0 15%;
+    }
+
+    /* =========================
+       ARTISTS
+    ========================= */
+
+    .artists {
+      padding: 140px 5vw;
+      background: #e8dfd3;
+      color: #191310;
+    }
+
+    .artists .section-label {
+      color: #82634c;
+    }
+
+    .artists-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 70px;
+    }
+
+    .artists .section-number {
+      color: #776d65;
+    }
+
+    .artists-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .artist-card:nth-child(2) {
+      margin-top: 100px;
+    }
+
+    .artist-image {
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .artist-image img {
+      height: 100%;
+      transition: transform .8s cubic-bezier(.2,.7,.2,1);
+      filter: saturate(.8);
+    }
+
+    .artist-card:hover img {
+      transform: scale(1.06);
+    }
+
+    .artist-info {
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid rgba(0,0,0,.2);
+      margin-top: 12px;
+    }
+
+    .artist-name {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+    }
+
+    .artist-role {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #786e67;
+      margin-top: 5px;
+    }
+
+    /* =========================
+       STATEMENT
+    ========================= */
+
+    .statement {
+      padding: 180px 8vw;
+      background: var(--brown);
+      text-align: center;
+    }
+
+    .statement-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(55px, 9vw, 140px);
+      line-height: .95;
+      font-weight: 400;
+    }
+
+    .statement-title i {
+      color: var(--gold);
+    }
+
+    .statement p {
+      max-width: 500px;
+      margin: 45px auto 0;
+      color: #c1b4aa;
+      line-height: 1.8;
+      font-size: 13px;
+    }
+
+    /* =========================
+       GALLERY
+    ========================= */
+
+    .gallery {
+      padding: 140px 5vw;
+      background: var(--black);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .8fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item:nth-child(2) {
+      margin-top: 140px;
+    }
+
+    .gallery-item:nth-child(4) {
+      margin-top: -60px;
+    }
+
+    .gallery-item img {
+      transition: transform .8s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-item.tall img {
+      height: 650px;
+    }
+
+    .gallery-item.medium img {
+      height: 450px;
+    }
+
+    .gallery-item.small img {
+      height: 350px;
+    }
+
+    /* =========================
+       TESTIMONIAL
+    ========================= */
+
+    .testimonial {
+      padding: 150px 8vw;
+      background: #0f0c0a;
+      text-align: center;
+    }
+
+    .quote-mark {
+      font-family: "Playfair Display", serif;
+      font-size: 100px;
+      color: var(--gold);
+      line-height: .5;
+    }
+
+    .quote {
+      max-width: 1000px;
+      margin: 45px auto;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(32px, 5vw, 68px);
+      line-height: 1.15;
+      font-style: italic;
+    }
+
+    .client {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       BOOKING
+    ========================= */
+
+    .booking {
+      min-height: 700px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 100px 8vw;
+      overflow: hidden;
+    }
+
+    .booking-bg {
+      position: absolute;
+      inset: 0;
+    }
+
+    .booking-bg img {
+      height: 100%;
+      filter: brightness(.3);
+    }
+
+    .booking-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,.85), rgba(0,0,0,.2));
+    }
+
+    .booking-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .booking-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(65px, 10vw, 145px);
+      line-height: .83;
+      font-weight: 400;
+    }
+
+    .booking-title span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .booking-btn {
+      display: inline-flex;
+      margin-top: 55px;
+      padding: 20px 35px;
+      background: var(--cream);
+      color: var(--black);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: .4s;
+    }
+
+    .booking-btn:hover {
+      background: var(--gold);
+      transform: translateY(-5px);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      background: #090706;
+      padding: 100px 5vw 35px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 100px;
+    }
+
+    .footer-logo {
+      font-family: "Playfair Display", serif;
+      font-size: 55px;
+      letter-spacing: 6px;
+    }
+
+    .footer-tagline {
+      color: var(--muted);
+      max-width: 300px;
+      line-height: 1.7;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 100px;
+    }
+
+    .footer-column h4 {
+      font-size: 9px;
+      color: var(--gold);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+    }
+
+    .footer-column a {
+      display: block;
+      font-size: 12px;
+      color: #aaa098;
+      margin-bottom: 14px;
+      transition: .3s;
+    }
+
+    .footer-column a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--line);
+      padding-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      color: #665f59;
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+
+    /* =========================
+       REVEAL
+    ========================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 900px) {
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero-content {
+        padding-bottom: 50px;
+      }
+
+      .hero-title {
+        letter-spacing: -3px;
+      }
+
+      .hero-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
+      }
+
+      .scroll {
+        display: none;
+      }
+
+      .intro {
+        padding: 100px 7vw;
+      }
+
+      .intro-text {
+        margin-left: 0;
+      }
+
+      .service {
+        grid-template-columns: 40px 1fr 90px;
+      }
+
+      .service-desc {
+        display: none;
+      }
+
+      .experience {
+        min-height: 800px;
+      }
+
+      .experience-image {
+        width: 75%;
+        opacity: .65;
+      }
+
+      .experience-content {
+        width: 90%;
+      }
+
+      .artists-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .artist-card:nth-child(2) {
+        margin-top: 0;
+      }
+
+      .artist-image {
+        height: 600px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gallery-item:nth-child(2) {
+        margin-top: 60px;
+      }
+
+      .gallery-item:nth-child(4) {
+        margin-top: 0;
+      }
+
+      .footer-top {
+        flex-direction: column;
+        gap: 60px;
+      }
+
+      .footer-links {
+        gap: 60px;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      nav {
+        padding: 22px 6vw;
+      }
+
+      .nav-book {
+        padding: 10px 13px;
+      }
+
+      .hero-title {
+        font-size: 19vw;
+      }
+
+      .section-header {
+        align-items: flex-start;
+        gap: 30px;
+      }
+
+      .section-heading {
+        font-size: 55px;
+      }
+
+      .service {
+        grid-template-columns: 35px 1fr 75px;
+        padding: 25px 0;
+      }
+
+      .service-price {
+        font-size: 15px;
+      }
+
+      .experience {
+        min-height: 750px;
+      }
+
+      .experience-image {
+        width: 100%;
+        height: 650px;
+        opacity: .45;
+      }
+
+      .experience-title {
+        font-size: 65px;
+      }
+
+      .experience-copy {
+        margin-left: 0;
+      }
+
+      .artists {
+        padding: 100px 6vw;
+      }
+
+      .artist-image {
+        height: 500px;
+      }
+
+      .gallery {
+        padding: 100px 6vw;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-item:nth-child(2) {
+        margin-top: 0;
+      }
+
+      .gallery-item.tall img,
+      .gallery-item.medium img,
+      .gallery-item.small img {
+        height: 500px;
+      }
+
+      .statement {
+        padding: 120px 6vw;
+      }
+
+      .booking {
+        min-height: 600px;
+        padding: 80px 6vw;
+      }
+
+      .footer-links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .cursor {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PRELOADER -->
+  <div class="loader">
+    <div class="loader-content">
+      <div class="loader-logo">VELORA</div>
+      <div class="loader-line"></div>
+    </div>
+  </div>
+
+  <!-- CURSOR -->
+  <div class="cursor"></div>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="#" class="logo">VELORA</a>
+
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#artists">Artists</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+    </ul>
+
+    <a href="#booking" class="nav-book">Book Now</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="hero-image">
+      <img
+        src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=2200&q=90"
+        alt="Luxury salon"
+      >
+    </div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+      <div class="hero-small">
+        Hair • Beauty • Experience
+      </div>
+
+      <h1 class="hero-title">
+        Beauty,<br>
+        <i>refined.</i>
+      </h1>
+
+      <div class="hero-bottom">
+
+        <p class="hero-description">
+          A modern hair & beauty studio where exceptional
+          craftsmanship meets effortless luxury.
+        </p>
+
+        <a href="#booking" class="hero-cta">
+          Book your appointment
+          <span>↗</span>
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="scroll">
+      SCROLL TO EXPLORE ↓
+    </div>
+
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="marquee-track">
+
+      <span>HAIR</span>
+      <span class="dot">✦</span>
+      <span>BEAUTY</span>
+      <span class="dot">✦</span>
+      <span>CONFIDENCE</span>
+      <span class="dot">✦</span>
+      <span>CRAFT</span>
+      <span class="dot">✦</span>
+
+      <span>HAIR</span>
+      <span class="dot">✦</span>
+      <span>BEAUTY</span>
+      <span class="dot">✦</span>
+      <span>CONFIDENCE</span>
+      <span class="dot">✦</span>
+      <span>CRAFT</span>
+      <span class="dot">✦</span>
+
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <section class="intro reveal">
+
+    <div class="section-label">
+      01 — The Philosophy
+    </div>
+
+    <h2 class="intro-title">
+      More than a salon.<br>
+      A place to <em>become</em><br>
+      your most confident self.
+    </h2>
+
+    <p class="intro-text">
+      At Velora, every detail is intentional. From the first consultation
+      to the final touch, our artists combine modern techniques,
+      timeless aesthetics and a genuine understanding of what makes
+      you feel beautiful.
+    </p>
+
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+
+    <div class="section-header reveal">
+
+      <div>
+        <div class="section-label">
+          02 — What We Do
+        </div>
+
+        <h2 class="section-heading">
+          Signature<br>
+          Services
+        </h2>
+      </div>
+
+      <div class="section-number">
+        04 SERVICES
+      </div>
+
+    </div>
+
+    <div class="services-list">
+
+      <div class="service reveal">
+        <div class="service-number">01</div>
+
+        <div class="service-name">
+          Signature Cut
+        </div>
+
+        <div class="service-desc">
+          Personalized cutting, styling and finishing
+          designed around your features.
+        </div>
+
+        <div class="service-price">
+          ₹1,200
+        </div>
+      </div>
+
+      <div class="service reveal">
+        <div class="service-number">02</div>
+
+        <div class="service-name">
+          Color & Balayage
+        </div>
+
+        <div class="service-desc">
+          Dimensional color created with precision,
+          softness and individuality.
+        </div>
+
+        <div class="service-price">
+          ₹3,500
+        </div>
+      </div>
+
+      <div class="service reveal">
+        <div class="service-number">03</div>
+
+        <div class="service-name">
+          Hair Ritual
+        </div>
+
+        <div class="service-desc">
+          A restorative spa experience for healthy,
+          luminous and beautifully conditioned hair.
+        </div>
+
+        <div class="service-price">
+          ₹1,800
+        </div>
+      </div>
+
+      <div class="service reveal">
+        <div class="service-number">04</div>
+
+        <div class="service-name">
+          Bridal Beauty
+        </div>
+
+        <div class="service-desc">
+          Bespoke hair and beauty styling for
+          unforgettable occasions.
+        </div>
+
+        <div class="service-price">
+          ₹8,500
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience" id="experience">
+
+    <div class="experience-image">
+      <img
+        src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1800&q=90"
+        alt="Salon experience"
+      >
+    </div>
+
+    <div class="experience-content reveal">
+
+      <div class="section-label">
+        03 — The Experience
+      </div>
+
+      <h2 class="experience-title">
+        Feel<br>
+        <span>beautiful.</span>
+      </h2>
+
+      <p class="experience-copy">
+        Step away from the noise. Settle into your chair,
+        enjoy a perfectly crafted coffee and let our artists
+        take care of the rest.
+        <br><br>
+        Luxury isn't about excess.
+        It's about how a moment makes you feel.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- ARTISTS -->
+  <section class="artists" id="artists">
+
+    <div class="artists-header reveal">
+
+      <div>
+        <div class="section-label">
+          04 — The Artists
+        </div>
+
+        <h2 class="section-heading">
+          Meet the<br>
+          Creatives
+        </h2>
+      </div>
+
+      <div class="section-number">
+        OUR TEAM
+      </div>
+
+    </div>
+
+    <div class="artists-grid">
+
+      <div class="artist-card reveal">
+
+        <div class="artist-image">
+          <img
+            src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=90"
+            alt="Maya Sharma"
+          >
+        </div>
+
+        <div class="artist-info">
+          <div>
+            <div class="artist-name">Maya Sharma</div>
+            <div class="artist-role">Creative Director</div>
+          </div>
+
+          <div>01</div>
+        </div>
+
+      </div>
+
+      <div class="artist-card reveal">
+
+        <div class="artist-image">
+          <img
+            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=90"
+            alt="Arjun Mehta"
+          >
+        </div>
+
+        <div class="artist-info">
+          <div>
+            <div class="artist-name">Arjun Mehta</div>
+            <div class="artist-role">Color Specialist</div>
+          </div>
+
+          <div>02</div>
+        </div>
+
+      </div>
+
+      <div class="artist-card reveal">
+
+        <div class="artist-image">
+          <img
+            src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1200&q=90"
+            alt="Rohan Kapoor"
+          >
+        </div>
+
+        <div class="artist-info">
+          <div>
+            <div class="artist-name">Rohan Kapoor</div>
+            <div class="artist-role">Senior Stylist</div>
+          </div>
+
+          <div>03</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- STATEMENT -->
+  <section class="statement reveal">
+
+    <div class="section-label">
+      05 — Our Belief
+    </div>
+
+    <h2 class="statement-title">
+      You don't leave<br>
+      looking <i>different.</i><br>
+      You leave feeling<br>
+      different.
+    </h2>
+
+    <p>
+      Because the best beauty experience isn't about
+      changing who you are. It's about revealing more of it.
+    </p>
+
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+
+    <div class="section-header reveal">
+
+      <div>
+        <div class="section-label">
+          06 — The Journal
+        </div>
+
+        <h2 class="section-heading">
+          Recent<br>
+          Work
+        </h2>
+      </div>
+
+      <div class="section-number">
+        @VELORA.STUDIO
+      </div>
+
+    </div>
+
+    <div class="gallery-grid">
+
+      <div class="gallery-item tall reveal">
+        <img
+          src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=1200&q=90"
+          alt="Hair styling"
+        >
+      </div>
+
+      <div class="gallery-item medium reveal">
+        <img
+          src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=90"
+          alt="Beauty"
+        >
+      </div>
+
+      <div class="gallery-item small reveal">
+        <img
+          src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=1000&q=90"
+          alt="Salon"
+        >
+      </div>
+
+      <div class="gallery-item medium reveal">
+        <img
+          src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1200&q=90"
+          alt="Hair salon"
+        >
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section class="testimonial reveal">
+
+    <div class="quote-mark">“</div>
+
+    <p class="quote">
+      Velora completely changed the way I feel
+      about visiting a salon. Every detail feels
+      considered, personal and incredibly luxurious.
+    </p>
+
+    <div class="client">
+      — Ananya Rao · Mumbai
+    </div>
+
+  </section>
+
+  <!-- BOOKING -->
+  <section class="booking" id="booking">
+
+    <div class="booking-bg">
+      <img
+        src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=2200&q=90"
+        alt="Luxury salon"
+      >
+    </div>
+
+    <div class="booking-overlay"></div>
+
+    <div class="booking-content reveal">
+
+      <div class="section-label">
+        07 — Your Moment
+      </div>
+
+      <h2 class="booking-title">
+        Ready for<br>
+        your next<br>
+        <span>look?</span>
+      </h2>
+
+      <a href="#" class="booking-btn">
+        Book an appointment ↗
+      </a>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+
+    <div class="footer-top">
+
+      <div>
+
+        <div class="footer-logo">
+          VELORA
+        </div>
+
+        <p class="footer-tagline">
+          Modern hair & beauty for people
+          who believe style should feel
+          as good as it looks.
+        </p>
+
+      </div>
+
+      <div class="footer-links">
+
+        <div class="footer-column">
+
+          <h4>Explore</h4>
+
+          <a href="#services">Services</a>
+          <a href="#artists">Artists</a>
+          <a href="#experience">Experience</a>
+          <a href="#gallery">Gallery</a>
+
+        </div>
+
+        <div class="footer-column">
+
+          <h4>Visit</h4>
+
+          <a href="#">Bandra West</a>
+          <a href="#">Mumbai, India</a>
+          <a href="#">+91 98765 43210</a>
+          <a href="#">hello@velora.studio</a>
+
+        </div>
+
+        <div class="footer-column">
+
+          <h4>Social</h4>
+
+          <a href="#">Instagram</a>
+          <a href="#">Pinterest</a>
+          <a href="#">Facebook</a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <span>© 2026 VELORA STUDIO</span>
+      <span>CRAFTED WITH INTENTION</span>
+
+    </div>
+
+  </footer>
+
+  <script>
+
+    /* =========================
+       CUSTOM CURSOR
+    ========================= */
+
+    const cursor = document.querySelector(".cursor");
+
+    document.addEventListener("mousemove", e => {
+      cursor.style.left = e.clientX + "px";
+      cursor.style.top = e.clientY + "px";
+    });
+
+    document.querySelectorAll("a, .service, .artist-card, .gallery-item")
+      .forEach(el => {
+
+        el.addEventListener("mouseenter", () => {
+          cursor.classList.add("active");
+        });
+
+        el.addEventListener("mouseleave", () => {
+          cursor.classList.remove("active");
+        });
+
+      });
+
+
+    /* =========================
+       SCROLL REVEAL
+    ========================= */
+
+    const observer = new IntersectionObserver(
+      entries => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+    document.querySelectorAll(".reveal")
+      .forEach(el => observer.observe(el));
+
+
+    /* =========================
+       PARALLAX
+    ========================= */
+
+    window.addEventListener("scroll", () => {
+
+      const scrolled = window.scrollY;
+
+      const heroImage =
+        document.querySelector(".hero-image img");
+
+      if (heroImage && scrolled < window.innerHeight) {
+        heroImage.style.transform =
+          `scale(1.02) translateY(${scrolled * 0.12}px)`;
+      }
+
+    });
+
+
+    /* =========================
+       NAV SCROLL EFFECT
+    ========================= */
+
+    const nav = document.querySelector("nav");
+
+    window.addEventListener("scroll", () => {
+
+      if (window.scrollY > 100) {
+        nav.style.paddingTop = "18px";
+        nav.style.paddingBottom = "18px";
+      } else {
+        nav.style.paddingTop = "28px";
+        nav.style.paddingBottom = "28px";
+      }
+
+    });
+
+
+    /* =========================
+       SERVICE INTERACTION
+    ========================= */
+
+    document.querySelectorAll(".service").forEach(service => {
+
+      service.addEventListener("click", () => {
+
+        const name =
+          service.querySelector(".service-name").textContent.trim();
+
+        alert(
+          `${name}\n\nBook this service by contacting Velora Studio.`
+        );
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
